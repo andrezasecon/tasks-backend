@@ -25,14 +25,13 @@ pipeline{
         }
 
         stage('Quality Gate'){
-            steps{               
+            steps{
+                sleep(300)
+                timeout(time: 1, unit: 'MINUTES'){
                 waitForQualityGate abortPipeline:true
                 }
-                if ("${json.projectStatus.status}" == "ERROR") {
-                            currentBuild.result = 'FAILURE'
-                            error('Pipeline aborted due to quality gate failure.')
-                    }
+                
             }
         }
     }
-
+}
